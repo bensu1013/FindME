@@ -15,6 +15,7 @@
 		B51D280F1E23FF2400A6039D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B51D280D1E23FF2400A6039D /* Main.storyboard */; };
 		B51D28111E23FF2400A6039D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B51D28101E23FF2400A6039D /* Assets.xcassets */; };
 		B51D28141E23FF2400A6039D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B51D28121E23FF2400A6039D /* LaunchScreen.storyboard */; };
+		B51D281C1E24061800A6039D /* HUDLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51D281B1E24061800A6039D /* HUDLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		B51D28101E23FF2400A6039D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B51D28131E23FF2400A6039D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B51D28151E23FF2400A6039D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B51D281B1E24061800A6039D /* HUDLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				B51D28051E23FF2400A6039D /* GameScene.sks */,
 				B51D28071E23FF2400A6039D /* Actions.sks */,
 				B51D28091E23FF2400A6039D /* GameScene.swift */,
+				B51D281B1E24061800A6039D /* HUDLayer.swift */,
 				B51D280B1E23FF2400A6039D /* GameViewController.swift */,
 				B51D280D1E23FF2400A6039D /* Main.storyboard */,
 				B51D28101E23FF2400A6039D /* Assets.xcassets */,
@@ -150,6 +153,7 @@
 				B51D280A1E23FF2400A6039D /* GameScene.swift in Sources */,
 				B51D280C1E23FF2400A6039D /* GameViewController.swift in Sources */,
 				B51D28041E23FF2400A6039D /* AppDelegate.swift in Sources */,
+				B51D281C1E24061800A6039D /* HUDLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +313,7 @@
 				B51D281A1E23FF2400A6039D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
