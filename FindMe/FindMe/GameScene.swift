@@ -9,10 +9,13 @@
 import SpriteKit
 import GameplayKit
 import UIKit
+
+
+
 class GameScene: SKScene {
     
-    private var player : SKSpriteNode?
-    private var hudLayer : HUDLayer?
+    private var player = Player.player
+    private var hudLayer : HUDLayer!
     private var swipe: UIPanGestureRecognizer?
     private var mainCamera: SKCameraNode?
     
@@ -20,60 +23,55 @@ class GameScene: SKScene {
         
         self.hudLayer = HUDLayer()
         
-        self.player = scene?.childNode(withName: "player") as? SKSpriteNode
+        self.addChild(player)
+        self.player.position = CGPoint(x: 0.0, y: 0.0)
+        self.player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
+        self.player.physicsBody?.allowsRotation = false
         
         self.mainCamera = SKCameraNode()
         
-        self.swipe = UIPanGestureRecognizer(target: self, action: #selector(movePlayer))
-        
-        self.view?.addGestureRecognizer(swipe!)
-        
         self.addChild(self.mainCamera!)
-        
-        self.mainCamera?.addChild(hudLayer!)
+
+        self.mainCamera?.addChild(hudLayer)
         
         self.camera = mainCamera
+        
     }
     
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let touch = touches.first!.location(in: hudLayer)
+        
+        hudLayer.startTouch(touch: touch)
+        
+    }
+
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        let touch = touches.first!.location(in: hudLayer)
+        
+        hudLayer.endTouch(touch: touch)
+        
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        
+        camera?.position = player.position
+        player.update()
+        
+    }
     
 
     
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        player?.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 100))
-        
-    }
-    
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        
-        camera?.position = (player?.position)!
-        
-    }
-    
-    
-    func movePlayer(gesture: UIPanGestureRecognizer) {
-        
-        let direction = gesture.velocity(in: self.view).x
-        
-        if direction < 0 {
-            
-            player?.physicsBody?.applyImpulse(CGVector(dx: -20, dy: 0.0))
-            
-        }  else if direction > 0 {
-            
-            player?.physicsBody?.applyImpulse(CGVector(dx: 20, dy: 0.0))
-            
-        }
-        
-    }
-    
-    
-    
-    
-    
-    
-   }
+}
+
+
+
+
+
+
+
+
