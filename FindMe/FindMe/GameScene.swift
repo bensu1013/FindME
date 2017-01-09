@@ -16,28 +16,25 @@ class GameScene: SKScene {
     
     private var player = Player.player
     private var hudLayer : HUDLayer!
-    private var swipe: UIPanGestureRecognizer?
-    private var mainCamera: SKCameraNode?
+    private var swipe: UIPanGestureRecognizer!
+    private var mainCamera: SKCameraNode!
     
     override func didMove(to view: SKView) {
-        
+
         self.hudLayer = HUDLayer()
         
         self.addChild(player)
         self.player.position = CGPoint(x: 0.0, y: 0.0)
-        self.player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
-        self.player.physicsBody?.allowsRotation = false
         
         self.mainCamera = SKCameraNode()
         
-        self.addChild(self.mainCamera!)
+        self.addChild(self.mainCamera)
 
-        self.mainCamera?.addChild(hudLayer)
+        self.mainCamera.addChild(hudLayer)
         
         self.camera = mainCamera
         
     }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -46,7 +43,6 @@ class GameScene: SKScene {
         hudLayer.startTouch(touch: touch)
         
     }
-
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 

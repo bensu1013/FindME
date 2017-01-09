@@ -23,7 +23,8 @@ class Player: SKSpriteNode {
     
     private override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
- 
+        physicsBody = SKPhysicsBody(rectangleOf: self.frame.size)
+        physicsBody?.allowsRotation = false
     }
     
     required init?(coder aDecoder: NSCoder) {
