@@ -14,7 +14,7 @@ import UIKit
 
 class GameScene: SKScene {
     
-    private var player = Player.player
+    private var player = Player.main.player
     private var hudLayer : HUDLayer!
     private var swipe: UIPanGestureRecognizer!
     private var mainCamera: SKCameraNode!
@@ -55,7 +55,7 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         
         camera?.position = player.position
-        player.update()
+        Player.main.update()
         
     }
     

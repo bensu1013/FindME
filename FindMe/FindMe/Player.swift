@@ -13,31 +13,39 @@ enum Movement {
     case left, right, none
 }
 
-class Player: SKSpriteNode {
+
+class Player {
     
-    static var player = Player(texture: nil, color: UIColor.green, size: CGSize(width: 32.0, height: 64.0))
+    static var main = Player()
     
+    var player = SKSpriteNode()
+    private var moveLeftTextures: [SKTexture] = []
+    private var moveRightTextures: [SKTexture] = []
 
     
     var movement: Movement = .none
     
-    private override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-        super.init(texture: texture, color: color, size: size)
-        physicsBody = SKPhysicsBody(rectangleOf: self.frame.size)
-        physicsBody?.allowsRotation = false
+    private init() {
+        
+        moveLeftTextures.append(SKTexture(imageNamed: "AdaLeft"))
+        moveRightTextures.append(SKTexture(imageNamed: "AdaRight"))
+        
+        player = SKSpriteNode(texture: moveRightTextures[0], color: UIColor.clear, size: CGSize(width: 32.0, height: 64.0))
+        
+        player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
+        player.physicsBody?.allowsRotation = false
+        
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     func update() {
         
         switch movement {
         case .left:
-            self.physicsBody?.velocity.dx = -200
+            player.physicsBody?.velocity.dx = -200
+            player.texture = moveLeftTextures[0]
         case .right:
-            self.physicsBody?.velocity.dx = 200
+            player.physicsBody?.velocity.dx = 200
+            player.texture = moveRightTextures[0]
         case .none:
             break
         }
@@ -45,7 +53,7 @@ class Player: SKSpriteNode {
     }
     
     func jumping() {
-        self.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 50))
+        player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 50))
     }
     
 }
