@@ -34,6 +34,8 @@ class Player {
         player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
         player.physicsBody?.allowsRotation = false
         player.physicsBody?.categoryBitMask = CollisionCategory.PlayerCategory
+        player.physicsBody?.contactTestBitMask = CollisionCategory.TreeCategory
+        player.physicsBody?.collisionBitMask = CollisionCategory.BorderCategory
         
     }
 
@@ -53,7 +55,7 @@ class Player {
     }
     
     func jumping() {
-        player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 50))
+        player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 40))
     }
     
 }

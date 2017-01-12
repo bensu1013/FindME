@@ -12,16 +12,16 @@ import UIKit
 
 
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var player = Player.main.player
-    private var hudLayer : HUDLayer!
-    private var swipe: UIPanGestureRecognizer!
+    private var hudLayer = HUDLayer.main
     private var mainCamera: SKCameraNode!
+    private var textSequences: LevelOne!
     
     override func didMove(to view: SKView) {
-
-        self.hudLayer = HUDLayer()
+        
+        self.physicsWorld.contactDelegate = self
         
         self.addChild(player)
         self.player.position = CGPoint(x: 0.0, y: 0.0)
@@ -32,6 +32,10 @@ class GameScene: SKScene {
         
         self.camera = mainCamera
         
+        textSequences = LevelOne()
+        
+        self.run(textSequences.introSequence)
+    
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -57,7 +61,22 @@ class GameScene: SKScene {
         
     }
     
-
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let bodyA = contact.bodyA
+        let bodyB = contact.bodyB
+        
+        if (bodyA.categoryBitMask == 2 && bodyB.categoryBitMask == 1) ||
+            (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 2) {
+            if !textSequences.treeTriggered {
+                textSequences.treeTriggered = true
+                self.run(textSequences.treeSequence)
+            }
+            
+        }
+        
+        
+    }
     
     
 }

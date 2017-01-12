@@ -13,13 +13,14 @@ import UIKit
 
 class HUDLayer: SKNode {
     
+    static var main = HUDLayer()
+    
     var jumpButton: SKSpriteNode!
-    
     var moveLeft: SKSpriteNode!
-    
     var moveRight: SKSpriteNode!
+    var mainLabel: SKLabelNode!
     
-    override init() {
+    private override init() {
         
         super.init()
         
@@ -34,6 +35,11 @@ class HUDLayer: SKNode {
         moveRight = SKSpriteNode(color: UIColor.green, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
         moveRight.position = CGPoint(x: UIScreen.main.bounds.width * -0.35, y: UIScreen.main.bounds.height * -0.45)
         self.addChild(moveRight)
+        
+        mainLabel = SKLabelNode()
+        mainLabel.position = CGPoint(x: 0.0, y: UIScreen.main.bounds.height * 0.25)
+        mainLabel.color = UIColor.darkGray
+        self.addChild(mainLabel)
         
     }
     
