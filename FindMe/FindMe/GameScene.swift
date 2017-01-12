@@ -27,9 +27,7 @@ class GameScene: SKScene {
         self.player.position = CGPoint(x: 0.0, y: 0.0)
         
         self.mainCamera = SKCameraNode()
-        
         self.addChild(self.mainCamera)
-
         self.mainCamera.addChild(hudLayer)
         
         self.camera = mainCamera

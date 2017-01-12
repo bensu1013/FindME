@@ -13,7 +13,6 @@ enum Movement {
     case left, right, none
 }
 
-
 class Player {
     
     static var main = Player()
@@ -34,6 +33,7 @@ class Player {
         
         player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
         player.physicsBody?.allowsRotation = false
+        player.physicsBody?.categoryBitMask = CollisionCategory.PlayerCategory
         
     }
 

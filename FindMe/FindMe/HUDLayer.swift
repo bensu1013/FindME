@@ -13,29 +13,26 @@ import UIKit
 
 class HUDLayer: SKNode {
     
-    var jumpButton: SKSpriteNode {
-        let button = SKSpriteNode(color: UIColor.blue, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
-        button.position = CGPoint(x: UIScreen.main.bounds.width * 0.45, y: UIScreen.main.bounds.height * -0.45)
-        return button
-    }
+    var jumpButton: SKSpriteNode!
     
-    var moveLeft: SKSpriteNode {
-        let button = SKSpriteNode(color: UIColor.green, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
-        button.position = CGPoint(x: UIScreen.main.bounds.width * -0.45, y: UIScreen.main.bounds.height * -0.45)
-        return button
-    }
+    var moveLeft: SKSpriteNode!
     
-    var moveRight: SKSpriteNode {
-        let button = SKSpriteNode(color: UIColor.green, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
-        button.position = CGPoint(x: UIScreen.main.bounds.width * -0.35, y: UIScreen.main.bounds.height * -0.45)
-        return button
-    }
+    var moveRight: SKSpriteNode!
     
     override init() {
         
         super.init()
+        
+        jumpButton = SKSpriteNode(color: UIColor.blue, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
+        jumpButton.position = CGPoint(x: UIScreen.main.bounds.width * 0.45, y: UIScreen.main.bounds.height * -0.45)
         self.addChild(jumpButton)
+        
+        moveLeft = SKSpriteNode(color: UIColor.green, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
+        moveLeft.position = CGPoint(x: UIScreen.main.bounds.width * -0.45, y: UIScreen.main.bounds.height * -0.45)
         self.addChild(moveLeft)
+        
+        moveRight = SKSpriteNode(color: UIColor.green, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
+        moveRight.position = CGPoint(x: UIScreen.main.bounds.width * -0.35, y: UIScreen.main.bounds.height * -0.45)
         self.addChild(moveRight)
         
     }
@@ -75,7 +72,8 @@ class HUDLayer: SKNode {
             Player.main.movement = .none
             
         }
-        
+        moveRight.color = UIColor.green
+        moveLeft.color = UIColor.green
     }
     
     func moveLeftTapped() {
