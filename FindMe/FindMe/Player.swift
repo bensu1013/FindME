@@ -34,7 +34,7 @@ class Player {
         player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
         player.physicsBody?.allowsRotation = false
         player.physicsBody?.categoryBitMask = BitmaskCategory.PlayerCategory
-        player.physicsBody?.contactTestBitMask = BitmaskCategory.TreeCategory
+        player.physicsBody?.contactTestBitMask = BitmaskCategory.TreeCategory + BitmaskCategory.TriggerCategory
         player.physicsBody?.collisionBitMask = BitmaskCategory.BorderCategory
         
     }

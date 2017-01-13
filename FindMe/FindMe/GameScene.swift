@@ -73,7 +73,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
-        
+        if (bodyA.categoryBitMask == 8 && bodyB.categoryBitMask == 1) ||
+            (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 8) {
+            if !LevelOne.jumpSpeechTriggered {
+                LevelOne.jumpSpeechTriggered = true
+                self.run(LevelOne.jumpSequence(label: hudLayer.mainLabel))
+            }
+            
+        }
         
     }
     
