@@ -15,33 +15,32 @@ import UIKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var player = Player.main.player
-    private var hudLayer = HUDLayer.main
+    private var hudLayer: HUDLayer!
     private var mainCamera: SKCameraNode!
-    private var textSequences: LevelOne!
     
     override func didMove(to view: SKView) {
         
         self.physicsWorld.contactDelegate = self
-        
         self.addChild(player)
         self.player.position = CGPoint(x: 0.0, y: 0.0)
         
-        self.mainCamera = SKCameraNode()
-        self.addChild(self.mainCamera)
-        self.mainCamera.addChild(hudLayer)
+        self.hudLayer = HUDLayer(texture: nil, color: UIColor.clear, size: CGSize(width: self.size.width, height: self.size.height))
+        self.hudLayer.position = CGPoint.zero
+        self.hudLayer.zPosition = 100
         
+        self.mainCamera = SKCameraNode()
+        self.mainCamera.addChild(hudLayer)
+        self.addChild(self.mainCamera)
         self.camera = mainCamera
         
-        textSequences = LevelOne()
-        
-        self.run(textSequences.introSequence)
+        self.run(LevelOne.introSequence(label: hudLayer.mainLabel))
     
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         let touch = touches.first!.location(in: hudLayer)
-        
+        print(touch)
         hudLayer.startTouch(touch: touch)
         
     }
@@ -68,9 +67,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (bodyA.categoryBitMask == 2 && bodyB.categoryBitMask == 1) ||
             (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 2) {
-            if !textSequences.treeTriggered {
-                textSequences.treeTriggered = true
-                self.run(textSequences.treeSequence)
+            if !LevelOne.treeTriggered {
+                LevelOne.treeTriggered = true
+                self.run(LevelOne.treeSequence(label: hudLayer.mainLabel))
             }
             
         }

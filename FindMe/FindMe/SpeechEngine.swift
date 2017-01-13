@@ -11,23 +11,30 @@ import SpriteKit
 
 class SpeechEngine {
     
-    static func typeWriterMessage(label: SKLabelNode, text: String) {
+    static func typeWriterMessage(label: SKLabelNode, text: String) -> SKAction {
         
         var tempText = ""
-        var wait: Double = 0
+        var sequence: [SKAction] = []
+        
+        let waitAction = SKAction.wait(forDuration: 0.12)
         
         for char in text.characters {
             
-            wait += 0.1
-            let time = DispatchTime(uptimeNanoseconds: DispatchTime.now().rawValue + UInt64(wait * Double(NSEC_PER_SEC)))
+            tempText += "\(char)"
+            let tempText1 = tempText
+            let action = SKAction.run {
+                
+                label.text = tempText1
+                
+            }
             
-            DispatchQueue.main.asyncAfter(deadline: time, execute: {
-                
-                tempText += "\(char)"
-                label.text = tempText
-                
-            })
+            sequence.append(action)
+            sequence.append(waitAction)
+            
         }
+        
+        return SKAction.sequence(sequence)
+        
     }
     
 }

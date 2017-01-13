@@ -11,36 +11,21 @@ import SpriteKit
 import UIKit
 
 
-class HUDLayer: SKNode {
+class HUDLayer: SKSpriteNode {
     
-    static var main = HUDLayer()
-    
+    var bottomToolbar: SKSpriteNode!
     var jumpButton: SKSpriteNode!
     var moveLeft: SKSpriteNode!
     var moveRight: SKSpriteNode!
     var mainLabel: SKLabelNode!
     
-    private override init() {
-        
-        super.init()
-        
-        jumpButton = SKSpriteNode(color: UIColor.blue, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
-        jumpButton.position = CGPoint(x: UIScreen.main.bounds.width * 0.45, y: UIScreen.main.bounds.height * -0.45)
-        self.addChild(jumpButton)
-        
-        moveLeft = SKSpriteNode(color: UIColor.green, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
-        moveLeft.position = CGPoint(x: UIScreen.main.bounds.width * -0.45, y: UIScreen.main.bounds.height * -0.45)
-        self.addChild(moveLeft)
-        
-        moveRight = SKSpriteNode(color: UIColor.green, size: CGSize(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1))
-        moveRight.position = CGPoint(x: UIScreen.main.bounds.width * -0.35, y: UIScreen.main.bounds.height * -0.45)
-        self.addChild(moveRight)
-        
-        mainLabel = SKLabelNode()
-        mainLabel.position = CGPoint(x: 0.0, y: UIScreen.main.bounds.height * 0.25)
-        mainLabel.color = UIColor.darkGray
-        self.addChild(mainLabel)
-        
+    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        super.init(texture: texture, color: color, size: size)
+        setupBottomToolBar()
+        setupJumpButton()
+        setupMoveLeftButton()
+        setupMoveRightButton()
+        setupMainLabel()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -95,5 +80,51 @@ class HUDLayer: SKNode {
     
 }
 
-
+//MARK: - Creating of HUD sublayers
+extension HUDLayer {
+    
+    func setupBottomToolBar() {
+    
+        bottomToolbar = SKSpriteNode(color: UIColor.brown, size: CGSize(width: self.size.width, height: self.size.height * 0.2))
+        bottomToolbar.position = CGPoint(x: 0.0, y: self.size.height * -0.4)
+        self.addChild(bottomToolbar)
+        
+    }
+    
+    func setupJumpButton() {
+        
+        jumpButton = SKSpriteNode(color: UIColor.blue, size: CGSize(width: self.size.width * 0.1, height: self.size.height * 0.15))
+        jumpButton.position = CGPoint(x: self.size.width * 0.35, y: self.size.height * -0.4)
+        self.addChild(jumpButton)
+        
+    }
+    
+    func setupMoveLeftButton() {
+        
+        moveLeft = SKSpriteNode(color: UIColor.green, size: CGSize(width: self.size.width * 0.1, height: self.size.height * 0.15))
+        moveLeft.position = CGPoint(x: self.size.width * -0.35, y: self.size.height * -0.4)
+        self.addChild(moveLeft)
+        
+    }
+    
+    func setupMoveRightButton() {
+        
+        moveRight = SKSpriteNode(color: UIColor.yellow, size: CGSize(width: self.size.width * 0.1, height: self.size.height * 0.15))
+        moveRight.position = CGPoint(x: self.size.width * -0.25, y: self.size.height * -0.4)
+        self.addChild(moveRight)
+        
+    }
+    
+    func setupMainLabel() {
+        
+        mainLabel = SKLabelNode()
+        mainLabel.position = CGPoint(x: 0.0, y: self.size.height * 0.25)
+        mainLabel.fontSize = 24
+        mainLabel.fontColor = UIColor.white
+        mainLabel.fontName = "Courier-Bold"
+        self.addChild(mainLabel)
+        
+    }
+    
+}
 

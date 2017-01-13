@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct CollisionCategory {
+struct BitmaskCategory {
     static let PlayerCategory   : UInt32 = 0x1 << 0
     static let TreeCategory : UInt32 = 0x1 << 1
     //    let BlockCategory  : UInt32 = 0x1 << 2
