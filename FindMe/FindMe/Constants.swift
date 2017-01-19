@@ -16,3 +16,13 @@ struct BitmaskCategory {
     static let TriggerCategory : UInt32 = 0x1 << 3
     static let BorderCategory : UInt32 = 0x1 << 4
 }
+
+
+
+
+
+
+
+
+
+

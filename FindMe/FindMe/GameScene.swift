@@ -40,7 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         let touch = touches.first!.location(in: hudLayer)
-        print(touch)
         hudLayer.startTouch(touch: touch)
         
     }
@@ -48,7 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         let touch = touches.first!.location(in: hudLayer)
-        
         hudLayer.endTouch(touch: touch)
         
     }
@@ -62,19 +60,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
-        let bodyA = contact.bodyA
-        let bodyB = contact.bodyB
+        let firstBody: SKPhysicsBody!
+        let secondBody: SKPhysicsBody!
         
-        if (bodyA.categoryBitMask == 2 && bodyB.categoryBitMask == 1) ||
-            (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 2) {
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
+            (secondBody.categoryBitMask & BitmaskCategory.TreeCategory != 0)) {
             if !LevelOne.treeTriggered {
                 LevelOne.treeTriggered = true
                 self.run(LevelOne.treeSequence(label: hudLayer.mainLabel))
             }
             
         }
-        if (bodyA.categoryBitMask == 8 && bodyB.categoryBitMask == 1) ||
-            (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 8) {
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
+            (secondBody.categoryBitMask & BitmaskCategory.TriggerCategory != 0)) {
             if !LevelOne.jumpSpeechTriggered {
                 LevelOne.jumpSpeechTriggered = true
                 self.run(LevelOne.jumpSequence(label: hudLayer.mainLabel))
@@ -82,8 +88,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
+            (secondBody.categoryBitMask & BitmaskCategory.BorderCategory != 0)) {
+            
+            
+            
+            let platform = secondBody.node as! SKSpriteNode
+            let platformSurfaceYPos = platform.position.y + platform.size.height/2.0
+            
+            let playerLegsYPos = player.position.y - player.size.height/2.0
+            
+            if (platformSurfaceYPos <= playerLegsYPos){
+                
+                Player.main.isJumping = false
+                print("start")
+            }
+        }
+        
     }
     
+    func didEnd(_ contact: SKPhysicsContact) {
+        let firstBody: SKPhysicsBody!
+        let secondBody: SKPhysicsBody!
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
+            (secondBody.categoryBitMask & BitmaskCategory.BorderCategory != 0)) {
+            
+            let platform = secondBody.node as! SKSpriteNode
+            let platformSurfaceYPos = platform.position.y + platform.size.height/2.0
+            
+            let playerLegsYPos = player.position.y - player.size.height/2.0
+            
+            if ((platformSurfaceYPos <= playerLegsYPos) && ((player.physicsBody?.velocity.dy)! > CGFloat(0))){
+                
+                Player.main.isJumping = true
+                print("end")
+            }
+            
+        }
+        
+    }
     
 }
 
