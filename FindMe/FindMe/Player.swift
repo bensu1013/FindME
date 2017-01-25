@@ -35,7 +35,7 @@ class Player {
         
         player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
         player.physicsBody?.restitution = 0.0
-        
+        player.physicsBody?.usesPreciseCollisionDetection = true
         player.physicsBody?.allowsRotation = false
         player.physicsBody?.categoryBitMask = BitmaskCategory.PlayerCategory
         player.physicsBody?.contactTestBitMask = BitmaskCategory.TreeCategory | BitmaskCategory.TriggerCategory | BitmaskCategory.BorderCategory
@@ -62,7 +62,7 @@ class Player {
 
         if !isJumping {
             
-            player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 40))
+            player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 70))
             
         }
     }

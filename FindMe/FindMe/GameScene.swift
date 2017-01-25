@@ -126,8 +126,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let platformSurfaceYPos = platform.position.y + platform.size.height/2.0
             
             let playerLegsYPos = player.position.y - player.size.height/2.0
-            
-            if ((platformSurfaceYPos <= playerLegsYPos) && ((player.physicsBody?.velocity.dy)! > CGFloat(0))){
+            print("ending")
+            if ((platformSurfaceYPos <= playerLegsYPos)){
                 
                 Player.main.isJumping = true
                 print("end")
