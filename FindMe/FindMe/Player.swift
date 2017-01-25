@@ -18,28 +18,21 @@ class Player {
     static var main = Player()
     
     var player = SKSpriteNode()
+    var footNode = SKSpriteNode()
     
-    private var moveLeftTextures: [SKTexture] = []
-    private var moveRightTextures: [SKTexture] = []
+    fileprivate var moveLeftTextures: [SKTexture] = []
+    fileprivate var moveRightTextures: [SKTexture] = []
     
     var isJumping = false
+    private var isGliding = false
     
     var movement: Movement = .none
     
     private init() {
         
-        moveLeftTextures.append(SKTexture(imageNamed: "AdaLeft"))
-        moveRightTextures.append(SKTexture(imageNamed: "AdaRight"))
-        
-        player = SKSpriteNode(texture: moveRightTextures[0], color: UIColor.clear, size: CGSize(width: 32.0, height: 64.0))
-        
-        player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
-        player.physicsBody?.restitution = 0.0
-        player.physicsBody?.usesPreciseCollisionDetection = true
-        player.physicsBody?.allowsRotation = false
-        player.physicsBody?.categoryBitMask = BitmaskCategory.PlayerCategory
-        player.physicsBody?.contactTestBitMask = BitmaskCategory.TreeCategory | BitmaskCategory.TriggerCategory | BitmaskCategory.BorderCategory
-        player.physicsBody?.collisionBitMask = BitmaskCategory.BorderCategory
+        loadTextures()
+        loadPlayer()
+        loadFootNode()
         
     }
 
@@ -55,16 +48,83 @@ class Player {
         case .none:
             break
         }
-   
+        
+        if isGliding {
+            
+            if (player.physicsBody?.velocity.dy)! < 0.0 {
+                if player.physicsBody?.affectedByGravity == true {
+                    player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: -1))
+                    player.physicsBody?.affectedByGravity = false
+                    print(1)
+                }
+                
+            }
+            
+        } else {
+            
+            if player.physicsBody?.affectedByGravity == false {
+                 player.physicsBody?.affectedByGravity = true
+            }
+            
+        }
+        
     }
     
     func jumping() {
-
         if !isJumping {
-            
-            player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 70))
-            
+            player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 40))
         }
     }
     
+    func startGliding() {
+        
+        self.isGliding = true
+        
+    }
+    
+    func stopGliding() {
+        
+        self.isGliding = false
+        
+    }
+    
+    
 }
+
+
+//MARK : -Initializer methods
+extension Player {
+    
+    func loadTextures() {
+        moveLeftTextures.append(SKTexture(imageNamed: "AdaLeft"))
+        moveRightTextures.append(SKTexture(imageNamed: "AdaRight"))
+    }
+    
+    func loadPlayer() {
+        player = SKSpriteNode(texture: moveRightTextures[0], color: UIColor.clear, size: CGSize(width: 32.0, height: 64.0))
+        
+        player.physicsBody = SKPhysicsBody(rectangleOf: player.frame.size)
+        player.physicsBody?.restitution = 0.0
+        player.physicsBody?.usesPreciseCollisionDetection = true
+        player.physicsBody?.allowsRotation = false
+        player.physicsBody?.categoryBitMask = BitmaskCategory.PlayerBody
+        player.physicsBody?.contactTestBitMask = BitmaskCategory.Doodad | BitmaskCategory.EventTrigger
+        player.physicsBody?.collisionBitMask = BitmaskCategory.SteppingPlatform
+    }
+    
+    func loadFootNode() {
+        footNode = SKSpriteNode(color: UIColor.clear, size: CGSize(width: 8.0, height: 8.0))
+        player.addChild(footNode)
+        footNode.position = CGPoint(x: 0.0, y: player.frame.size.height / -2)
+        footNode.physicsBody = SKPhysicsBody(rectangleOf: footNode.frame.size)
+        footNode.physicsBody?.allowsRotation = false
+        footNode.physicsBody?.pinned = true
+        footNode.physicsBody?.categoryBitMask = BitmaskCategory.PlayerFoot
+        footNode.physicsBody?.contactTestBitMask = BitmaskCategory.SteppingPlatform
+        footNode.physicsBody?.collisionBitMask = 0
+    }
+    
+}
+
+
+

@@ -10,11 +10,17 @@ import Foundation
 
 
 struct BitmaskCategory {
-    static let PlayerCategory   : UInt32 = 0x1 << 0
-    static let TreeCategory : UInt32 = 0x1 << 1
-    static let DoodadCategory  : UInt32 = 0x1 << 2
-    static let TriggerCategory : UInt32 = 0x1 << 3
-    static let BorderCategory : UInt32 = 0x1 << 4
+    static let PlayerBody  : UInt32 = 0x1 << 0
+    static let PlayerFoot  : UInt32 = 0x1 << 1
+    
+    
+    
+    static let Doodad  : UInt32 = 0x1 << 4
+    
+    static let EventTrigger : UInt32 = 0x1 << 8
+    
+    
+    static let SteppingPlatform : UInt32 = 0x1 << 12
 }
 
 

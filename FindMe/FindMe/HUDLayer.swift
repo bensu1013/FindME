@@ -29,14 +29,19 @@ class HUDLayer: SKSpriteNode {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        
         fatalError("init(coder:) has not been implemented")
-        
     }
     
     func startTouch(touch: CGPoint) {
         
-        if moveRight.contains(touch) {
+        if jumpButton.contains(touch) {
+            
+            if !Player.main.isJumping {
+                Player.main.jumping()
+            }
+            Player.main.startGliding()
+            
+        } else if moveRight.contains(touch) {
             
             moveRightTapped()
             
@@ -48,11 +53,12 @@ class HUDLayer: SKSpriteNode {
         
     }
     
+    //Add a dictionary of touches and labels, to check against when touches need to end
     func endTouch(touch: CGPoint) {
-        
+        //Ending touch outside of jump when gliding, causes gravity to be off, with upward velocity!
         if jumpButton.contains(touch) {
             
-            Player.main.jumping()
+            Player.main.stopGliding()
             
         } else if moveRight.contains(touch) {
             
@@ -62,7 +68,12 @@ class HUDLayer: SKSpriteNode {
             
             Player.main.movement = .none
             
+        } else {
+            //Temporary fix for when movement is touched, but touch ends off of the button
+            Player.main.movement = .none
+            
         }
+        
         moveRight.color = UIColor.green
         moveLeft.color = UIColor.green
     }
@@ -109,7 +120,7 @@ extension HUDLayer {
     
     func setupMoveRightButton() {
         
-        moveRight = SKSpriteNode(color: UIColor.yellow, size: CGSize(width: self.size.width * 0.1, height: self.size.height * 0.15))
+        moveRight = SKSpriteNode(color: UIColor.green, size: CGSize(width: self.size.width * 0.1, height: self.size.height * 0.15))
         moveRight.position = CGPoint(x: self.size.width * -0.25, y: self.size.height * -0.4)
         self.addChild(moveRight)
         

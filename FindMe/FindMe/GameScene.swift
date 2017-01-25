@@ -44,6 +44,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let touch = touches.first!.location(in: hudLayer)
+        hudLayer.startTouch(touch: touch)
+        
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         let touch = touches.first!.location(in: hudLayer)
@@ -71,38 +78,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
-        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
-            (secondBody.categoryBitMask & BitmaskCategory.TreeCategory != 0)) {
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerBody) != 0 &&
+            (secondBody.categoryBitMask & BitmaskCategory.Doodad != 0)) {
             if !LevelOne.treeTriggered {
                 LevelOne.treeTriggered = true
+                self.removeAllActions()
                 self.run(LevelOne.treeSequence(label: hudLayer.mainLabel))
             }
             
         }
-        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
-            (secondBody.categoryBitMask & BitmaskCategory.TriggerCategory != 0)) {
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerBody) != 0 &&
+            (secondBody.categoryBitMask & BitmaskCategory.EventTrigger != 0)) {
             if !LevelOne.jumpSpeechTriggered {
                 LevelOne.jumpSpeechTriggered = true
+                self.removeAllActions()
                 self.run(LevelOne.jumpSequence(label: hudLayer.mainLabel))
             }
             
         }
         
-        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
-            (secondBody.categoryBitMask & BitmaskCategory.BorderCategory != 0)) {
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerFoot != 0) &&
+            (secondBody.categoryBitMask & BitmaskCategory.SteppingPlatform != 0)) {
             
+            Player.main.isJumping = false
+            Player.main.stopGliding()
+            print("start")
             
-            
-            let platform = secondBody.node as! SKSpriteNode
-            let platformSurfaceYPos = platform.position.y + platform.size.height/2.0
-            
-            let playerLegsYPos = player.position.y - player.size.height/2.0
-            
-            if (platformSurfaceYPos <= playerLegsYPos){
-                
-                Player.main.isJumping = false
-                print("start")
-            }
         }
         
     }
@@ -119,19 +120,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
-        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerCategory) != 0 &&
-            (secondBody.categoryBitMask & BitmaskCategory.BorderCategory != 0)) {
+        if ((firstBody.categoryBitMask & BitmaskCategory.PlayerFoot != 0) &&
+            (secondBody.categoryBitMask & BitmaskCategory.SteppingPlatform != 0)) {
             
-            let platform = secondBody.node as! SKSpriteNode
-            let platformSurfaceYPos = platform.position.y + platform.size.height/2.0
-            
-            let playerLegsYPos = player.position.y - player.size.height/2.0
-            print("ending")
-            if ((platformSurfaceYPos <= playerLegsYPos)){
-                
-                Player.main.isJumping = true
-                print("end")
-            }
+            Player.main.isJumping = true
+            print("end")
             
         }
         
